@@ -21,14 +21,12 @@ class DurationIso8601Converter implements JsonConverter<Duration, String> {
 
   @override
   String toJson(Duration object) {
-    final hours = object.inHours;
-    final minutes = object.inMinutes.remainder(60);
+    final minutes = object.inMinutes;
     final seconds = object.inSeconds.remainder(60);
-    final parts = <String>['PT'];
-    if (hours > 0) parts.add('${hours}H');
-    if (minutes > 0) parts.add('${minutes}M');
-    if (seconds > 0) parts.add('${seconds}S');
-    return parts.join();
+    if (seconds == 0) return 'PT${minutes}M';
+    final hours = object.inHours;
+    final remainingMinutes = minutes.remainder(60);
+    return 'PT${hours}H${remainingMinutes}M${seconds}S';
   }
 }
 

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Lecture",
+  "properties": {
+    "id":          {"type": "string"},
+    "title":       {"type": "string"},
+    "description": {"type": "string"},
+    "targets":     {"type": "array", "items": {"type": "string"}},
+    "objectives":  {"type": "array", "items": {"type": "string"}},
+    "points":      {"type": "array", "items": {"type": "string"}},
+    "duration":    {"type": "string", "pattern": "^PT"},
+    "level":       {"type": "string", "enum": ["初级", "中级", "高级"]}
+  },
+  "required": ["id", "title", "description", "targets", "objectives", "points", "duration", "level"]
+}
