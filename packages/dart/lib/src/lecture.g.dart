@@ -17,9 +17,6 @@ _$LectureImpl _$$LectureImplFromJson(
       .map((e) => e as String)
       .toList(),
   points: (json['points'] as List<dynamic>).map((e) => e as String).toList(),
-  duration: const DurationIso8601Converter().fromJson(
-    json['duration'] as String,
-  ),
   level: $enumDecode(_$LevelEnumMap, json['level']),
 );
 
@@ -31,7 +28,6 @@ Map<String, dynamic> _$$LectureImplToJson(_$LectureImpl instance) =>
       'targets': instance.targets,
       'objectives': instance.objectives,
       'points': instance.points,
-      'duration': const DurationIso8601Converter().toJson(instance.duration),
       'level': _$LevelEnumMap[instance.level]!,
     };
 

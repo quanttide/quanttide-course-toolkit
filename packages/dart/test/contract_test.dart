@@ -31,7 +31,7 @@ void main() {
       expect(schema['title'], 'Lecture');
       expect(schema['required'], contains('id'));
       expect(schema['required'], contains('title'));
-      expect(schema['required'], contains('duration'));
+      expect(schema['required'], isNot(contains('duration')));
     });
 
     test('fixture deserializes correctly', () {
@@ -41,7 +41,6 @@ void main() {
       final lecture = Lecture.fromJson(camel);
       expect(lecture.id, 'lec_001');
       expect(lecture.title, 'Python 基础');
-      expect(lecture.duration.inMinutes, 90);
       expect(lecture.level, Level.introductory);
     });
 
@@ -53,7 +52,6 @@ void main() {
       final json = lecture.toJson();
       expect(json['id'], 'lec_001');
       expect(json['title'], 'Python 基础');
-      expect(json['duration'], 'PT90M');
       expect(json['level'], '初级');
     });
 
@@ -65,13 +63,11 @@ void main() {
         targets: [],
         objectives: [],
         points: [],
-        duration: Duration.zero,
         level: Level.introductory,
       );
       final json = lecture.toJson();
       expect(json['id'], 'lec_min');
       expect(json['title'], 'Minimal');
-      expect(json['duration'], 'PT0M');
     });
   });
 }

@@ -27,8 +27,6 @@ mixin _$Lecture {
   List<String> get targets => throw _privateConstructorUsedError;
   List<String> get objectives => throw _privateConstructorUsedError;
   List<String> get points => throw _privateConstructorUsedError;
-  @DurationIso8601Converter()
-  Duration get duration => throw _privateConstructorUsedError;
   Level get level => throw _privateConstructorUsedError;
 
   /// Serializes this Lecture to a JSON map.
@@ -52,7 +50,6 @@ abstract class $LectureCopyWith<$Res> {
     List<String> targets,
     List<String> objectives,
     List<String> points,
-    @DurationIso8601Converter() Duration duration,
     Level level,
   });
 }
@@ -78,7 +75,6 @@ class _$LectureCopyWithImpl<$Res, $Val extends Lecture>
     Object? targets = null,
     Object? objectives = null,
     Object? points = null,
-    Object? duration = null,
     Object? level = null,
   }) {
     return _then(
@@ -107,10 +103,6 @@ class _$LectureCopyWithImpl<$Res, $Val extends Lecture>
                 ? _value.points
                 : points // ignore: cast_nullable_to_non_nullable
                       as List<String>,
-            duration: null == duration
-                ? _value.duration
-                : duration // ignore: cast_nullable_to_non_nullable
-                      as Duration,
             level: null == level
                 ? _value.level
                 : level // ignore: cast_nullable_to_non_nullable
@@ -136,7 +128,6 @@ abstract class _$$LectureImplCopyWith<$Res> implements $LectureCopyWith<$Res> {
     List<String> targets,
     List<String> objectives,
     List<String> points,
-    @DurationIso8601Converter() Duration duration,
     Level level,
   });
 }
@@ -161,7 +152,6 @@ class __$$LectureImplCopyWithImpl<$Res>
     Object? targets = null,
     Object? objectives = null,
     Object? points = null,
-    Object? duration = null,
     Object? level = null,
   }) {
     return _then(
@@ -190,10 +180,6 @@ class __$$LectureImplCopyWithImpl<$Res>
             ? _value._points
             : points // ignore: cast_nullable_to_non_nullable
                   as List<String>,
-        duration: null == duration
-            ? _value.duration
-            : duration // ignore: cast_nullable_to_non_nullable
-                  as Duration,
         level: null == level
             ? _value.level
             : level // ignore: cast_nullable_to_non_nullable
@@ -213,7 +199,6 @@ class _$LectureImpl implements _Lecture {
     required final List<String> targets,
     required final List<String> objectives,
     required final List<String> points,
-    @DurationIso8601Converter() required this.duration,
     required this.level,
   }) : _targets = targets,
        _objectives = objectives,
@@ -253,14 +238,11 @@ class _$LectureImpl implements _Lecture {
   }
 
   @override
-  @DurationIso8601Converter()
-  final Duration duration;
-  @override
   final Level level;
 
   @override
   String toString() {
-    return 'Lecture(id: $id, title: $title, description: $description, targets: $targets, objectives: $objectives, points: $points, duration: $duration, level: $level)';
+    return 'Lecture(id: $id, title: $title, description: $description, targets: $targets, objectives: $objectives, points: $points, level: $level)';
   }
 
   @override
@@ -278,8 +260,6 @@ class _$LectureImpl implements _Lecture {
               _objectives,
             ) &&
             const DeepCollectionEquality().equals(other._points, _points) &&
-            (identical(other.duration, duration) ||
-                other.duration == duration) &&
             (identical(other.level, level) || other.level == level));
   }
 
@@ -293,7 +273,6 @@ class _$LectureImpl implements _Lecture {
     const DeepCollectionEquality().hash(_targets),
     const DeepCollectionEquality().hash(_objectives),
     const DeepCollectionEquality().hash(_points),
-    duration,
     level,
   );
 
@@ -319,7 +298,6 @@ abstract class _Lecture implements Lecture {
     required final List<String> targets,
     required final List<String> objectives,
     required final List<String> points,
-    @DurationIso8601Converter() required final Duration duration,
     required final Level level,
   }) = _$LectureImpl;
 
@@ -337,9 +315,6 @@ abstract class _Lecture implements Lecture {
   List<String> get objectives;
   @override
   List<String> get points;
-  @override
-  @DurationIso8601Converter()
-  Duration get duration;
   @override
   Level get level;
 

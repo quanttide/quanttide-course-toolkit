@@ -53,7 +53,6 @@ class TestLectureContract:
             targets=["target1"],
             objectives=["obj1"],
             points=["pt1"],
-            duration="PT90M",
             level="初级",
         )
         data = lecture.to_dict()
@@ -69,7 +68,6 @@ class TestLectureContract:
             targets=[],
             objectives=[],
             points=[],
-            duration="PT0M",
             level="初级",
         )
         data = lecture.to_dict()
