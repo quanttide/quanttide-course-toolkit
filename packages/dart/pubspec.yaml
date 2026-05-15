@@ -1,0 +1,11 @@
+name: quanttide_course
+description: 量潮课程研发Dart SDK
+version: 0.1.0
+homepage: https://github.com/quanttide/quanttide-course-toolkit
+repository: https://github.com/quanttide/quanttide-course-toolkit
+
+environment:
+  sdk: ^3.11.5
+
+dev_dependencies:
+  test: ^1.25.0
