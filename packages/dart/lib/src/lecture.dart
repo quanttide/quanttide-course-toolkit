@@ -1,51 +1,36 @@
-enum Level {
-  introductory('初级'),
-  intermediate('中级'),
-  advanced('高级');
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  final String label;
-  const Level(this.label);
+part 'lecture.freezed.dart';
+part 'lecture.g.dart';
+
+class DurationMinutesConverter implements JsonConverter<Duration, int> {
+  const DurationMinutesConverter();
+
+  @override
+  Duration fromJson(int json) => Duration(minutes: json);
+
+  @override
+  int toJson(Duration object) => object.inMinutes;
 }
 
-class Lecture {
-  final String id;
-  final String title;
-  final String description;
-  final List<String> targets;
-  final List<String> objectives;
-  final List<String> points;
-  final Duration duration;
-  final Level level;
+enum Level {
+  @JsonValue('初级') introductory,
+  @JsonValue('中级') intermediate,
+  @JsonValue('高级') advanced;
+}
 
-  const Lecture({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.targets,
-    required this.objectives,
-    required this.points,
-    required this.duration,
-    required this.level,
-  });
+@freezed
+class Lecture with _$Lecture {
+  const factory Lecture({
+    required String id,
+    required String title,
+    required String description,
+    required List<String> targets,
+    required List<String> objectives,
+    required List<String> points,
+    @DurationMinutesConverter() required Duration duration,
+    required Level level,
+  }) = _Lecture;
 
-  factory Lecture.fromJson(Map<String, dynamic> json) {
-    return Lecture(
-      id: json['id'] as String,
-      title: json['title'] as String,
-      description: json['description'] as String,
-      targets: (json['targets'] as List)
-          .map((e) => e as String)
-          .toList(),
-      objectives: (json['objectives'] as List)
-          .map((e) => e as String)
-          .toList(),
-      points: (json['points'] as List)
-          .map((e) => e as String)
-          .toList(),
-      duration: Duration(minutes: json['duration'] as int),
-      level: Level.values.firstWhere(
-        (l) => l.label == json['level'] as String,
-      ),
-    );
-  }
+  factory Lecture.fromJson(Map<String, dynamic> json) => _$LectureFromJson(json);
 }

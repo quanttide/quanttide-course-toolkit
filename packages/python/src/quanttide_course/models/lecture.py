@@ -1,7 +1,8 @@
+from datetime import timedelta
 from enum import Enum
 from typing import Any
 
-from pydantic import BaseModel, ConfigDict, field_validator
+from pydantic import BaseModel, ConfigDict, field_serializer, field_validator
 
 
 class Level(str, Enum):
@@ -19,7 +20,7 @@ class Lecture(BaseModel):
     targets: list[str]
     objectives: list[str]
     points: list[str]
-    duration: int
+    duration: timedelta
     level: Level
 
     @field_validator("targets", "objectives", "points", mode="before")
@@ -31,6 +32,18 @@ class Lecture(BaseModel):
             return [str(item) for item in v]
         return []
 
+    @field_validator("duration", mode="before")
+    @classmethod
+    def coerce_duration(cls, v: Any) -> timedelta:
+        if isinstance(v, timedelta):
+            return v
+        if isinstance(v, int):
+            return timedelta(minutes=v)
+        raise ValueError(f"Expected int (minutes) or timedelta, got {type(v)}")
+
+    @field_serializer("duration")
+    def serialize_duration(self, v: timedelta) -> int:
+        return int(v.total_seconds() // 60)
+
     def to_dict(self) -> dict[str, Any]:
-        d = self.model_dump(mode="json")
-        return d
+        return self.model_dump(mode="json")
