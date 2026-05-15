@@ -2,6 +2,7 @@
   "id": "lec_001",
   "title": "Python 基础",
   "description": "从零开始，掌握 Python 核心语法与编程范式。",
+  "level": "初级",
   "targets": ["有 1 年以上编码经验的开发者"],
   "objectives": [
     "掌握 Python 变量、数据类型与运算符",

@@ -24,10 +24,10 @@ mixin _$Lecture {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
+  Level get level => throw _privateConstructorUsedError;
   List<String> get targets => throw _privateConstructorUsedError;
   List<String> get objectives => throw _privateConstructorUsedError;
   List<String> get points => throw _privateConstructorUsedError;
-  Level get level => throw _privateConstructorUsedError;
 
   /// Serializes this Lecture to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -47,10 +47,10 @@ abstract class $LectureCopyWith<$Res> {
     String id,
     String title,
     String description,
+    Level level,
     List<String> targets,
     List<String> objectives,
     List<String> points,
-    Level level,
   });
 }
 
@@ -72,10 +72,10 @@ class _$LectureCopyWithImpl<$Res, $Val extends Lecture>
     Object? id = null,
     Object? title = null,
     Object? description = null,
+    Object? level = null,
     Object? targets = null,
     Object? objectives = null,
     Object? points = null,
-    Object? level = null,
   }) {
     return _then(
       _value.copyWith(
@@ -91,6 +91,10 @@ class _$LectureCopyWithImpl<$Res, $Val extends Lecture>
                 ? _value.description
                 : description // ignore: cast_nullable_to_non_nullable
                       as String,
+            level: null == level
+                ? _value.level
+                : level // ignore: cast_nullable_to_non_nullable
+                      as Level,
             targets: null == targets
                 ? _value.targets
                 : targets // ignore: cast_nullable_to_non_nullable
@@ -103,10 +107,6 @@ class _$LectureCopyWithImpl<$Res, $Val extends Lecture>
                 ? _value.points
                 : points // ignore: cast_nullable_to_non_nullable
                       as List<String>,
-            level: null == level
-                ? _value.level
-                : level // ignore: cast_nullable_to_non_nullable
-                      as Level,
           )
           as $Val,
     );
@@ -125,10 +125,10 @@ abstract class _$$LectureImplCopyWith<$Res> implements $LectureCopyWith<$Res> {
     String id,
     String title,
     String description,
+    Level level,
     List<String> targets,
     List<String> objectives,
     List<String> points,
-    Level level,
   });
 }
 
@@ -149,10 +149,10 @@ class __$$LectureImplCopyWithImpl<$Res>
     Object? id = null,
     Object? title = null,
     Object? description = null,
+    Object? level = null,
     Object? targets = null,
     Object? objectives = null,
     Object? points = null,
-    Object? level = null,
   }) {
     return _then(
       _$LectureImpl(
@@ -168,6 +168,10 @@ class __$$LectureImplCopyWithImpl<$Res>
             ? _value.description
             : description // ignore: cast_nullable_to_non_nullable
                   as String,
+        level: null == level
+            ? _value.level
+            : level // ignore: cast_nullable_to_non_nullable
+                  as Level,
         targets: null == targets
             ? _value._targets
             : targets // ignore: cast_nullable_to_non_nullable
@@ -180,10 +184,6 @@ class __$$LectureImplCopyWithImpl<$Res>
             ? _value._points
             : points // ignore: cast_nullable_to_non_nullable
                   as List<String>,
-        level: null == level
-            ? _value.level
-            : level // ignore: cast_nullable_to_non_nullable
-                  as Level,
       ),
     );
   }
@@ -196,10 +196,10 @@ class _$LectureImpl implements _Lecture {
     required this.id,
     required this.title,
     required this.description,
+    required this.level,
     required final List<String> targets,
     required final List<String> objectives,
     required final List<String> points,
-    required this.level,
   }) : _targets = targets,
        _objectives = objectives,
        _points = points;
@@ -213,6 +213,8 @@ class _$LectureImpl implements _Lecture {
   final String title;
   @override
   final String description;
+  @override
+  final Level level;
   final List<String> _targets;
   @override
   List<String> get targets {
@@ -238,11 +240,8 @@ class _$LectureImpl implements _Lecture {
   }
 
   @override
-  final Level level;
-
-  @override
   String toString() {
-    return 'Lecture(id: $id, title: $title, description: $description, targets: $targets, objectives: $objectives, points: $points, level: $level)';
+    return 'Lecture(id: $id, title: $title, description: $description, level: $level, targets: $targets, objectives: $objectives, points: $points)';
   }
 
   @override
@@ -254,13 +253,13 @@ class _$LectureImpl implements _Lecture {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
                 other.description == description) &&
+            (identical(other.level, level) || other.level == level) &&
             const DeepCollectionEquality().equals(other._targets, _targets) &&
             const DeepCollectionEquality().equals(
               other._objectives,
               _objectives,
             ) &&
-            const DeepCollectionEquality().equals(other._points, _points) &&
-            (identical(other.level, level) || other.level == level));
+            const DeepCollectionEquality().equals(other._points, _points));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -270,10 +269,10 @@ class _$LectureImpl implements _Lecture {
     id,
     title,
     description,
+    level,
     const DeepCollectionEquality().hash(_targets),
     const DeepCollectionEquality().hash(_objectives),
     const DeepCollectionEquality().hash(_points),
-    level,
   );
 
   /// Create a copy of Lecture
@@ -295,10 +294,10 @@ abstract class _Lecture implements Lecture {
     required final String id,
     required final String title,
     required final String description,
+    required final Level level,
     required final List<String> targets,
     required final List<String> objectives,
     required final List<String> points,
-    required final Level level,
   }) = _$LectureImpl;
 
   factory _Lecture.fromJson(Map<String, dynamic> json) = _$LectureImpl.fromJson;
@@ -310,13 +309,13 @@ abstract class _Lecture implements Lecture {
   @override
   String get description;
   @override
+  Level get level;
+  @override
   List<String> get targets;
   @override
   List<String> get objectives;
   @override
   List<String> get points;
-  @override
-  Level get level;
 
   /// Create a copy of Lecture
   /// with the given fields replaced by the non-null parameter values.

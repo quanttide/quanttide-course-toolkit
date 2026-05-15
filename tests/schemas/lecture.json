@@ -6,10 +6,10 @@
     "id":          {"type": "string"},
     "title":       {"type": "string"},
     "description": {"type": "string"},
+    "level":       {"type": "string", "enum": ["初级", "中级", "高级"]},
     "targets":     {"type": "array", "items": {"type": "string"}},
     "objectives":  {"type": "array", "items": {"type": "string"}},
-    "points":      {"type": "array", "items": {"type": "string"}},
-    "level":       {"type": "string", "enum": ["初级", "中级", "高级"]}
+    "points":      {"type": "array", "items": {"type": "string"}}
   },
-  "required": ["id", "title", "description", "targets", "objectives", "points", "level"]
+  "required": ["id", "title", "description", "level", "targets", "objectives", "points"]
 }

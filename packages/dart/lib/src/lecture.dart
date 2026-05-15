@@ -15,10 +15,10 @@ class Lecture with _$Lecture {
     required String id,
     required String title,
     required String description,
+    required Level level,
     required List<String> targets,
     required List<String> objectives,
     required List<String> points,
-    required Level level,
   }) = _Lecture;
 
   factory Lecture.fromJson(Map<String, dynamic> json) => _$LectureFromJson(json);

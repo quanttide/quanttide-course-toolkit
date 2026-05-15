@@ -12,12 +12,12 @@ _$LectureImpl _$$LectureImplFromJson(
   id: json['id'] as String,
   title: json['title'] as String,
   description: json['description'] as String,
+  level: $enumDecode(_$LevelEnumMap, json['level']),
   targets: (json['targets'] as List<dynamic>).map((e) => e as String).toList(),
   objectives: (json['objectives'] as List<dynamic>)
       .map((e) => e as String)
       .toList(),
   points: (json['points'] as List<dynamic>).map((e) => e as String).toList(),
-  level: $enumDecode(_$LevelEnumMap, json['level']),
 );
 
 Map<String, dynamic> _$$LectureImplToJson(_$LectureImpl instance) =>
@@ -25,10 +25,10 @@ Map<String, dynamic> _$$LectureImplToJson(_$LectureImpl instance) =>
       'id': instance.id,
       'title': instance.title,
       'description': instance.description,
+      'level': _$LevelEnumMap[instance.level]!,
       'targets': instance.targets,
       'objectives': instance.objectives,
       'points': instance.points,
-      'level': _$LevelEnumMap[instance.level]!,
     };
 
 const _$LevelEnumMap = {

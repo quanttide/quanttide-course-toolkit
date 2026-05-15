@@ -16,6 +16,7 @@ class Lecture(BaseModel):
     id: str
     title: str
     description: str
+    level: Level
     targets: list[str]
     objectives: list[str]
     points: list[str]
