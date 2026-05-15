@@ -27,7 +27,7 @@ mixin _$Lecture {
   List<String> get targets => throw _privateConstructorUsedError;
   List<String> get objectives => throw _privateConstructorUsedError;
   List<String> get points => throw _privateConstructorUsedError;
-  @DurationMinutesConverter()
+  @DurationIso8601Converter()
   Duration get duration => throw _privateConstructorUsedError;
   Level get level => throw _privateConstructorUsedError;
 
@@ -52,7 +52,7 @@ abstract class $LectureCopyWith<$Res> {
     List<String> targets,
     List<String> objectives,
     List<String> points,
-    @DurationMinutesConverter() Duration duration,
+    @DurationIso8601Converter() Duration duration,
     Level level,
   });
 }
@@ -136,7 +136,7 @@ abstract class _$$LectureImplCopyWith<$Res> implements $LectureCopyWith<$Res> {
     List<String> targets,
     List<String> objectives,
     List<String> points,
-    @DurationMinutesConverter() Duration duration,
+    @DurationIso8601Converter() Duration duration,
     Level level,
   });
 }
@@ -213,7 +213,7 @@ class _$LectureImpl implements _Lecture {
     required final List<String> targets,
     required final List<String> objectives,
     required final List<String> points,
-    @DurationMinutesConverter() required this.duration,
+    @DurationIso8601Converter() required this.duration,
     required this.level,
   }) : _targets = targets,
        _objectives = objectives,
@@ -253,7 +253,7 @@ class _$LectureImpl implements _Lecture {
   }
 
   @override
-  @DurationMinutesConverter()
+  @DurationIso8601Converter()
   final Duration duration;
   @override
   final Level level;
@@ -319,7 +319,7 @@ abstract class _Lecture implements Lecture {
     required final List<String> targets,
     required final List<String> objectives,
     required final List<String> points,
-    @DurationMinutesConverter() required final Duration duration,
+    @DurationIso8601Converter() required final Duration duration,
     required final Level level,
   }) = _$LectureImpl;
 
@@ -338,7 +338,7 @@ abstract class _Lecture implements Lecture {
   @override
   List<String> get points;
   @override
-  @DurationMinutesConverter()
+  @DurationIso8601Converter()
   Duration get duration;
   @override
   Level get level;
