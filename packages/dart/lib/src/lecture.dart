@@ -4,9 +4,12 @@ part 'lecture.freezed.dart';
 part 'lecture.g.dart';
 
 enum Level {
-  @JsonValue('初级') introductory,
-  @JsonValue('中级') intermediate,
-  @JsonValue('高级') advanced;
+  @JsonValue('初级') introductory('初级'),
+  @JsonValue('中级') intermediate('中级'),
+  @JsonValue('高级') advanced('高级');
+
+  final String label;
+  const Level(this.label);
 }
 
 @freezed
