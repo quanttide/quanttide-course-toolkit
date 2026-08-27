@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Course",
+  "properties": {
+    "id":          {"type": "string"},
+    "name":        {"type": "string"},
+    "slug":        {"type": "string"},
+    "description": {"type": "string"},
+    "status":      {"type": "string", "enum": ["draft", "published"]},
+    "sortOrder":   {"type": "integer"}
+  },
+  "required": ["id", "name", "slug"]
+}

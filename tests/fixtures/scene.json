@@ -1,0 +1,11 @@
+{
+  "id": "scen-1",
+  "lessonId": "less-1",
+  "title": "开场",
+  "slug": "open",
+  "videoUrl": "https://example.com/open.mp4",
+  "steps": [{"order": 1, "content": "启动 Zed"}],
+  "verifyTip": "确认 Zed 已启动",
+  "choices": [],
+  "criteria": ["cri-1"]
+}

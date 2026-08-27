@@ -1,0 +1,12 @@
+{
+  "id": "less-1",
+  "courseId": "prod",
+  "title": "创立故事",
+  "slug": "story",
+  "description": "了解 Vibe Coding 与课程形态",
+  "duration": 45,
+  "sortOrder": 1,
+  "status": "published",
+  "startSceneId": "scen-1",
+  "criteria": ["cri-1", "cri-2"]
+}
