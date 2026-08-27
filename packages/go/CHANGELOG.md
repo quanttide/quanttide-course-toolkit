@@ -1,10 +1,11 @@
 # Changelog
 
-## [packages/go/v0.1.0-alpha.2] - 2026-08-26
+## [go/v0.1.0-alpha.2] - 2026-08-26
 
 ### Fixed
 
-- 发布标签改为 `packages/go/` 前缀：Go 子目录模块要求标签含完整子路径，`go/v0.1.0-alpha.1` 无法被 `go get` 解析（alpha.1 为无效发布）
+- Go 子模块拉取修复：Go 要求子目录模块的标签含完整子路径（`packages/go/vX.Y.Z`），单一 `go/` 前缀标签无法被 `go get` 解析
+- 落实双标签制：主标签保持仓库统一惯例 `<scope>/vX.Y.Z` 并挂 GitHub Release；同 commit 机械追加 `packages/go/X.Y.Z` 工具链别名标签（无 Release）。此后所有 Go 包发布遵循此机制
 - 代码内容与 alpha.1 相同
 
 ## [go/v0.1.0-alpha.1] - 2026-08-26

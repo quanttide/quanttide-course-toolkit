@@ -33,3 +33,7 @@ quanttide-course-toolkit/
 ## 发布流程
 
 参见 [数据结构工具箱 AGENTS.md](https://github.com/quanttide/quanttide-data-toolkit/blob/main/AGENTS.md) 的发布流程。版本变更记录进各语言包自己的 CHANGELOG，仓库级 CHANGELOG 只记结构性与新增包级别的事件。
+
+### Go 包发布的双标签制
+
+主标签沿用仓库统一惯例 `<scope>/vX.Y.Z`（如 `go/v0.1.0-alpha.2`）并挂 GitHub Release。此外必须在同一 commit 追加带完整子路径前缀的**工具链别名标签** `packages/go/X.Y.Z`——这是 Go 子目录模块被 `go get` 解析的硬性要求，属于发布机制的机器侧产物：不挂 Release、不进 CHANGELOG 版本头。两条标签缺一不可。
