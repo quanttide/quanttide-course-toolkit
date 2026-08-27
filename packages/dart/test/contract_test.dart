@@ -1,77 +1,75 @@
+// 契约测试：以根 tests/ 的 Schema + Fixture 验证 Dart 模型。
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:test/test.dart';
 import 'package:quanttide_course/quanttide_course.dart';
 
-Map<String, dynamic> _snakeToCamel(Map<String, dynamic> input) {
-  final result = <String, dynamic>{};
-  for (final entry in input.entries) {
-    final camel = entry.key.replaceAllMapped(
-      RegExp(r'_(.)'),
-      (m) => m.group(1)!.toUpperCase(),
-    );
-    result[camel] = entry.value;
-  }
-  return result;
+final fixturesDir = Directory('${Directory.current.path}/../../tests/fixtures');
+final schemasDir = Directory('${Directory.current.path}/../../tests/schemas');
+
+Map<String, dynamic> fixture(String name) =>
+    jsonDecode(File('${fixturesDir.path}/$name').readAsStringSync())
+        as Map<String, dynamic>;
+
+void hasRequired(Map<String, dynamic> data, String schemaName) {
+  final schema = jsonDecode(
+    File('${schemasDir.path}/$schemaName.json').readAsStringSync(),
+  ) as Map<String, dynamic>;
+  final missing =
+      ((schema['required'] as List?) ?? []).cast<String>().where((k) => !data.containsKey(k));
+  expect(missing, isEmpty, reason: '$schemaName 缺少必填字段');
 }
 
-String _fixturePath(String name) =>
-    File('${Directory.current.path}/../../tests/fixtures/$name').path;
-
-String _schemaPath(String name) =>
-    File('${Directory.current.path}/../../tests/schemas/$name').path;
-
 void main() {
-  // SKIP: 契约测试待迁移——Lecture → Lesson 后按 tests/ 新 Schema/Fixture 重写（Go 包已对齐）。
-  print('skipped');
-  return;
+  test('course 契约', () {
+    final data = fixture('course.json');
+    hasRequired(data, 'course');
+    final c = Course.fromJson(data);
+    expect(c.id, 'prod');
+    expect(c.slug, 'prod');
+    expect(c.status, 'published');
+  });
 
-  group('Lecture contract', () {
-    test('schema definition is valid JSON', () {
-      final path = _schemaPath('lecture.json');
-      final raw = File(path).readAsStringSync();
-      final schema = jsonDecode(raw) as Map<String, dynamic>;
-      expect(schema['title'], 'Lecture');
-      expect(schema['required'], contains('id'));
-      expect(schema['required'], contains('title'));
-      expect(schema['required'], isNot(contains('duration')));
-    });
+  test('lesson 契约 + round-trip', () {
+    final data = fixture('lesson.json');
+    hasRequired(data, 'lesson');
+    final l = Lesson.fromJson(data);
+    expect(l.courseId, 'prod');
+    expect(l.startSceneId, 'scen-1');
+    expect(l.criteria.length, 2);
 
-    test('fixture deserializes correctly', () {
-      final path = _fixturePath('lecture.json');
-      final raw = jsonDecode(File(path).readAsStringSync()) as Map<String, dynamic>;
-      final camel = _snakeToCamel(raw);
-      final lecture = Lecture.fromJson(camel);
-      expect(lecture.id, 'lec_001');
-      expect(lecture.title, 'Python 基础');
-      expect(lecture.level, Level.introductory);
-    });
+    // Round-trip：序列化回 API 形态后可再次解析，值不变
+    final again = Lesson.fromJson(l.toJson());
+    expect(again.id, l.id);
+    expect(again.courseId, l.courseId);
+    expect(again.startSceneId, l.startSceneId);
+    expect(again.criteria, l.criteria);
+  });
 
-    test('round-trip', () {
-      final path = _fixturePath('lecture.json');
-      final raw = jsonDecode(File(path).readAsStringSync()) as Map<String, dynamic>;
-      final camel = _snakeToCamel(raw);
-      final lecture = Lecture.fromJson(camel);
-      final json = lecture.toJson();
-      expect(json['id'], 'lec_001');
-      expect(json['title'], 'Python 基础');
-      expect(json['level'], '初级');
-    });
+  test('scene 契约', () {
+    final data = fixture('scene.json');
+    hasRequired(data, 'scene');
+    final s = Scene.fromJson(data);
+    expect(s.videoUrl.endsWith('open.mp4'), isTrue);
+    expect(s.steps.length, 1);
+    expect(s.choices, isEmpty); // 空数组 = 终结场景（字段始终存在）
+  });
 
-    test('minimal instance serializes', () {
-      final lecture = Lecture(
-        id: 'lec_min',
-        title: 'Minimal',
-        description: '',
-        targets: [],
-        objectives: [],
-        points: [],
-        level: Level.introductory,
-      );
-      final json = lecture.toJson();
-      expect(json['id'], 'lec_min');
-      expect(json['title'], 'Minimal');
-    });
+  test('criterion 契约', () {
+    final data = fixture('criterion.json');
+    hasRequired(data, 'criterion');
+    final cr = Criterion.fromJson(data);
+    expect(cr.sceneId, 'scen-1');
+    expect(cr.title, '会连接 Zed');
+
+    // 无 sceneId 表示课时级标准
+    final lessonLevel = const Criterion(
+      id: 'cri-2',
+      lessonId: 'less-1',
+      title: '完成全部场景',
+      description: '课时内所有场景通过',
+    );
+    expect(lessonLevel.sceneId, isNull);
   });
 }
