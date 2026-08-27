@@ -13,11 +13,17 @@
 | `Scene` | 场景 / 视频片段（互动课时基本单元） |
 | `Criterion` | 验收标准（跨领域对接的原子单元，学习云直连其 ID） |
 
+```bash
+go get github.com/quanttide/quanttide-course-toolkit/packages/go@v0.1.0-alpha.2
+```
+
 ```go
 import course "github.com/quanttide/quanttide-course-toolkit/packages/go/pkg"
 
 lessons, err := course.ParseLessons(data)
 ```
+
+> 注意：本包标签带完整子路径前缀 `packages/go/vX.Y.Z`（Go 子目录模块要求）。
 
 ## 许可
 
