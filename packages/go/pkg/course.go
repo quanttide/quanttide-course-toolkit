@@ -1,92 +1,80 @@
 // Package course 提供课程领域模型。
+//
+// 模型以 qtcloud-course 服务端的最新实现为准（课程树三级结构
+// Course → Lesson → Scene，加 Criterion 验收标准），
+// JSON 标签与服务端 API 字段一一对应，供各应用与工具复用。
 package course
 
-import (
-	"encoding/json"
-	"fmt"
-)
+import "encoding/json"
 
-// Level 课程难度层级。
-type Level string
-
-const (
-	LevelIntroductory Level = "初级"
-	LevelIntermediate Level = "中级"
-	LevelAdvanced     Level = "高级"
-)
-
-// Lecture 讲次：课程内容的基本组织单元。
-//
-// Targets 为适合人群；Objectives 为学习目标；Points 为知识点清单。
-// 字段语义与 Dart / Python SDK 保持一致，标签取自课程数据 JSON 形态。
-type Lecture struct {
-	ID          string   `json:"id"`
-	Title       string   `json:"title"`
-	Description string   `json:"description"`
-	Level       Level    `json:"level"`
-	Targets     []string `json:"targets"`
-	Objectives  []string `json:"objectives"`
-	Points      []string `json:"points"`
+// Course 是课程，教学单元。学员端目录直接展示课程。
+type Course struct {
+	ID          string `json:"id"`
+	Name        string `json:"name"`
+	Slug        string `json:"slug"`
+	Description string `json:"description,omitempty"`
+	Status      string `json:"status,omitempty"`    // "draft" / "published"
+	SortOrder   int    `json:"sortOrder,omitempty"` // 排序序号（目录阶梯顺序）
 }
 
-// UnmarshalJSON 反序列化时容忍缺失或非列表的列表字段（如 null）。
-func (l *Lecture) UnmarshalJSON(data []byte) error {
-	type alias struct {
-		ID          string          `json:"id"`
-		Title       string          `json:"title"`
-		Description string          `json:"description"`
-		Level       Level           `json:"level"`
-		Targets     json.RawMessage `json:"targets"`
-		Objectives  json.RawMessage `json:"objectives"`
-		Points      json.RawMessage `json:"points"`
-	}
-	var a alias
-	if err := json.Unmarshal(data, &a); err != nil {
-		return err
-	}
-	l.ID, l.Title, l.Description, l.Level = a.ID, a.Title, a.Description, a.Level
-
-	targets, err := coerceList(a.Targets)
-	if err != nil {
-		return fmt.Errorf("targets: %w", err)
-	}
-	objectives, err := coerceList(a.Objectives)
-	if err != nil {
-		return fmt.Errorf("objectives: %w", err)
-	}
-	points, err := coerceList(a.Points)
-	if err != nil {
-		return fmt.Errorf("points: %w", err)
-	}
-	l.Targets, l.Objectives, l.Points = targets, objectives, points
-	return nil
+// Lesson 是课时，教学内容的最小组织单元。归属课程。
+type Lesson struct {
+	ID           string `json:"id"`
+	CourseID     string `json:"courseId"` // 所属课程
+	Title        string `json:"title"`
+	Slug         string `json:"slug"`
+	Description  string `json:"description,omitempty"`
+	Duration     int    `json:"duration,omitempty"`     // 课时时长（分钟），默认45
+	SortOrder    int    `json:"sortOrder,omitempty"`    // 排序序号（课时顺序）
+	Status       string `json:"status,omitempty"`       // "draft" / "published"
+	StartSceneID string `json:"startSceneId,omitempty"` // 入口场景 ID
+	// Criteria 引用课时总验收标准（场景全过 + 跨场景约束，如安全/合规）。
+	Criteria []string `json:"criteria,omitempty"`
 }
 
-// coerceList 将 raw 归一为字符串列表：缺失、null 或非列表一律空切片，
-// 与 Dart / Python SDK 的宽松语义保持一致。
-func coerceList(raw json.RawMessage) ([]string, error) {
-	var out []string
-	if len(raw) == 0 || string(raw) == "null" {
-		return []string{}, nil
-	}
-	if err := json.Unmarshal(raw, &out); err != nil {
-		return []string{}, nil
+// Scene 是视频片段，互动课时的基本单元。
+type Scene struct {
+	ID        string    `json:"id"`
+	LessonID  string    `json:"lessonId"`        // 所属课时
+	Title     string    `json:"title,omitempty"` // 场景标题
+	Slug      string    `json:"slug"`
+	VideoURL  string    `json:"videoUrl"`            // 本段视频地址
+	Steps     []Step    `json:"steps,omitempty"`     // 操作步骤列表
+	VerifyTip string    `json:"verifyTip,omitempty"` // 验证方式
+	Choices   []*Choice `json:"choices,omitempty"`   // 分支选项（空表示终结）
+	// Criteria 引用本场景完成的验收标准（每步判定——与课时级同构，
+	// 课时总验收 = 场景全过 + 跨场景约束）。
+	Criteria []string `json:"criteria,omitempty"`
+}
+
+// Criterion 是验收标准：课程研发阶段定义，跨领域对接的原子单元。
+// 单一事实源在课程域；学习云完成记录的 criterion_id 直指本实体 ID，
+// 不设本地副本或映射表。
+type Criterion struct {
+	ID          string `json:"id"`
+	LessonID    string `json:"lessonId"`          // 所属课时
+	SceneID     string `json:"sceneId,omitempty"` // 所属场景（场景级验收标准；空表示课时级）
+	Title       string `json:"title"`             // 标准名称（人类可读，用于展示与检索）
+	Description string `json:"description"`       // 判定规则（什么算做对）
+}
+
+// Step 是场景内的操作步骤。
+type Step struct {
+	Order   int    `json:"order"`
+	Content string `json:"content"`
+}
+
+// Choice 是场景内的分支选项，用户选择后跳转到目标场景。
+type Choice struct {
+	Label         string `json:"label"`
+	TargetSceneID string `json:"targetSceneId"`
+}
+
+// ParseLesson 从服务端 /courses/{id}/lessons 响应解析课时列表。
+func ParseLessons(data []byte) ([]*Lesson, error) {
+	var out []*Lesson
+	if err := json.Unmarshal(data, &out); err != nil {
+		return nil, err
 	}
 	return out, nil
-}
-
-// Validate 校验必需字段与合法难度层级。
-func (l *Lecture) Validate() error {
-	if l.ID == "" {
-		return fmt.Errorf("id 必填")
-	}
-	if l.Title == "" {
-		return fmt.Errorf("title 必填")
-	}
-	switch l.Level {
-	case LevelIntroductory, LevelIntermediate, LevelAdvanced:
-	default:
-		return fmt.Errorf("level 非法：%q", l.Level)
-	}
-	return nil
 }
