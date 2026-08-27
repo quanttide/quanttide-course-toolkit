@@ -12,6 +12,7 @@ quanttide-course-toolkit/
 ├── packages/
 │   ├── python/        # Python SDK
 │   ├── dart/          # Dart SDK
+│   ├── go/            # Go SDK
 │   └── flutter/       # Flutter UI 组件
 ├── docs/              # 文档
 └── tests/             # 测试

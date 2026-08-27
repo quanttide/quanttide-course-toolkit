@@ -7,6 +7,7 @@
 | 包 | 语言 | 字段风格 |
 |---|---|---|
 | `dart/` | Dart | camelCase |
+| `go/` | Go | camelCase |
 | `python/` | Python (Pydantic) | snake_case |
 
 ## 方案
