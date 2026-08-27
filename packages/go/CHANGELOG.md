@@ -1,5 +1,12 @@
 # Changelog
 
+## [go/v0.1.0-alpha.3] - 2026-08-26
+
+### Added
+
+- API 路由契约：Route* 模板常量（含通配段名，服务端注册用）+ 具体路径构造函数（消费方拼接用），同文件互锁
+- 契约测试：contract_test 以根 tests/ 的 Schema/Fixture 验证四实体模型
+
 ## [go/v0.1.0-alpha.2] - 2026-08-26
 
 ### Fixed
