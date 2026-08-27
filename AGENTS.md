@@ -36,4 +36,4 @@ quanttide-course-toolkit/
 
 ### Go 包发布的双标签制
 
-主标签沿用仓库统一惯例 `<scope>/vX.Y.Z`（如 `go/v0.1.0-alpha.2`）并挂 GitHub Release。此外必须在同一 commit 追加带完整子路径前缀的**工具链别名标签** `packages/go/X.Y.Z`——这是 Go 子目录模块被 `go get` 解析的硬性要求，属于发布机制的机器侧产物：不挂 Release、不进 CHANGELOG 版本头。两条标签缺一不可。
+详见 [CONTRIBUTING.md](CONTRIBUTING.md)。要点：主标签保持 `<scope>/vX.Y.Z` 惯例并挂 GitHub Release；同 commit 必须追加 `packages/go/X.Y.Z` 工具链别名标签（Go 子目录模块解析的硬性要求，不挂 Release）。

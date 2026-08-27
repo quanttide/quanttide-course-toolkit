@@ -1,5 +1,9 @@
 # Changelog
 
+## 未发布
+
+- 新增 CONTRIBUTING.md：Go 包双标签规范与原因说明
+
 ## [go/v0.1.0-alpha.1] - 2026-08-26
 
 - 初始化项目结构
