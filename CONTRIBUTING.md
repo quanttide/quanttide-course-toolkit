@@ -33,6 +33,14 @@ gh release create "go/$VERSION" --prerelease ...
 - 漏打别名标签时，包虽然"已发布"但实际不可被任何消费者获取（alpha.1 即此教训）；
 - 其余语言包（python/dart）不受此规则影响，只打主标签。
 
+## 版本号以契约测试为准
+
+`tests/` 的 Schema 与 Fixture 是各语言包版本的**客观依据**：一个语言包能否升版，看它是否已与当前契约体系对齐并通过契约测试。
+
+- 已落地契约测试并全绿的包（如 `go/`）：可按 semver 正常发版；
+- 契约测试挂起、模型未对齐契约体系的包（如迁移期的 python/dart）：只允许发 `alpha`/预览级版本，不得发正式版；
+- 契约变更（Schema/Fixture/路由）先行，各语言跟进后才能携带该变更进入新版本。
+
 ## 提交规范
 
 遵循 Conventional Commits（`feat:` / `fix:` / `docs:` / `chore:` 等）；破坏性变更标 `!` 并在 body 说明迁移方式。
