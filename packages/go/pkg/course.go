@@ -34,14 +34,14 @@ type Lesson struct {
 
 // Scene 是视频片段，互动课时的基本单元。
 type Scene struct {
-	ID        string    `json:"id"`
-	LessonID  string    `json:"lessonId"`        // 所属课时
-	Title     string    `json:"title,omitempty"` // 场景标题
-	Slug      string    `json:"slug"`
-	VideoURL  string    `json:"videoUrl"`            // 本段视频地址
-	Steps     []Step    `json:"steps,omitempty"`     // 操作步骤列表
-	VerifyTip string    `json:"verifyTip,omitempty"` // 验证方式
-	Choices   []*Choice `json:"choices,omitempty"`   // 分支选项（空表示终结）
+	ID        string   `json:"id"`
+	LessonID  string   `json:"lessonId"`        // 所属课时
+	Title     string   `json:"title,omitempty"` // 场景标题
+	Slug      string   `json:"slug"`
+	VideoURL  string   `json:"videoUrl"`            // 本段视频地址
+	Steps     []Step   `json:"steps,omitempty"`     // 操作步骤列表
+	VerifyTip string   `json:"verifyTip,omitempty"` // 验证方式
+	Choices   []Choice `json:"choices"`             // 分支选项（空数组表示终结）
 	// Criteria 引用本场景完成的验收标准（每步判定——与课时级同构，
 	// 课时总验收 = 场景全过 + 跨场景约束）。
 	Criteria []string `json:"criteria,omitempty"`
